@@ -81,7 +81,7 @@ class _HomePage extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                               ButtonTheme(
-                              minWidth: 170,
+                              minWidth: 100,
                               height: 80,
                               child: RaisedButton(
                                 color: Colors.white,
@@ -108,7 +108,7 @@ class _HomePage extends State<HomePage> {
                                             Row(
                                               children: <Widget>[
                                                 Text("${car.time}",style: TextStyle(color: Colors.black,fontSize: 20),),
-                                                SizedBox(width: 170,),
+                                                SizedBox(width: 100,),
                                                 Text("${car.idS}",style: TextStyle(color: Colors.black,fontSize: 20),),
                                               ],
                                             ),
@@ -117,7 +117,7 @@ class _HomePage extends State<HomePage> {
                                                 Text("${car.start}",style: TextStyle(color: Color.fromRGBO(0, 60, 141, 1),fontSize: 20)),
                                                 Icon(Icons.navigate_next),
                                                 Text("${car.end}",style: TextStyle(color: Color.fromRGBO(0, 60, 141, 1),fontSize: 20)),
-                                                SizedBox(width: 70,),
+                                                SizedBox(width: 10,),
                                                 Text("Sắp đến giờ",style: TextStyle(color: Colors.red,fontSize: 20)),
                                               ],
                                             )
@@ -143,7 +143,7 @@ class _HomePage extends State<HomePage> {
                             padding:
                             EdgeInsets.only(top: 0, left: 0, right: 15),
                             child: ButtonTheme(
-                              minWidth: 170,
+                              minWidth: 100,
                               height: 60,
                               child: RaisedButton(
                                 color: Color.fromRGBO(0, 60, 141, 1),
@@ -185,7 +185,7 @@ class _HomePage extends State<HomePage> {
                             padding:
                             EdgeInsets.only(top: 0, left: 15, right: 0),
                             child: ButtonTheme(
-                              minWidth: 170,
+                              minWidth: 120,
                               height: 60,
                               child: RaisedButton(
                                 color: Color.fromRGBO(0, 60, 141, 1),
