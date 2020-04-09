@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         builder: (context, state){
           if (state is AuthenticationAuthenticated){
             // show home page
-            return HomePage(user: state.user,);
+            return HomePage();
           }
           // otherwise show login page
           return LoginPage();

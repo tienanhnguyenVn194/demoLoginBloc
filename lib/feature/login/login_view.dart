@@ -5,16 +5,19 @@ import 'package:flutter_bloc_authentication/models/server.dart';
 import 'authentication/authentication.dart';
 import 'export.dart';
 
-class LoginPage extends StatelessWidget {
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: Text('Login'),
-      ),
-      body: SafeArea(
-          minimum: const EdgeInsets.all(16),
+      body: Container(
+          color: Color.fromRGBO(0, 60, 141, 1),
+          padding: EdgeInsets.all(20),
           child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
               final authBloc = BlocProvider.of<AuthenticationBloc>(context);
@@ -73,9 +76,10 @@ class _SignInForm extends StatefulWidget {
 
 class __SignInFormState extends State<_SignInForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
-  final _emailController = TextEditingController();
   bool _autoValidate = false;
+  bool _showPass = true;
+  TextEditingController _userController = new TextEditingController();
+  TextEditingController _passController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +87,7 @@ class __SignInFormState extends State<_SignInForm> {
 
     _onLoginButtonPressed() {
       if (_key.currentState.validate()) {
-        _loginBloc.add(LoginInWithEmailButtonPressed(email: _emailController.text, password: _passwordController.text));
+        _loginBloc.add(LoginInWithEmailButtonPressed(email: _userController.text, password: _passController.text));
       } else {
         setState(() {
           _autoValidate = true;
@@ -112,12 +116,21 @@ class __SignInFormState extends State<_SignInForm> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   TextFormField(
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                     decoration: InputDecoration(
-                      labelText: 'Email address',
+                      labelStyle: TextStyle(color: Colors.white),
+                      labelText: 'Tên Đăng Nhập',
                       filled: true,
                       isDense: true,
+                      enabledBorder: new UnderlineInputBorder(
+                          borderSide: new BorderSide(
+                              color: Colors.white
+                          )),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                     ),
-                    controller: _emailController,
+                    controller: _userController,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     validator: (value) {
@@ -130,36 +143,61 @@ class __SignInFormState extends State<_SignInForm> {
                   SizedBox(
                     height: 12,
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      filled: true,
-                      isDense: true,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                    child: Stack(
+                      alignment: AlignmentDirectional.centerEnd,
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelStyle: TextStyle(color: Colors.white),
+                            enabledBorder: new UnderlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Colors.white
+                                )),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            labelText: 'Mật khẩu',
+                            filled: true,
+                            isDense: true,
+                          ),
+
+                          obscureText: _showPass,
+                          controller: _passController,
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Password is required.';
+                            }
+                            return null;
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: onTouchedShowPassword,
+                          child: _showPass
+                              ? Icon(Icons.visibility,
+                              color: Colors.white, size: 20)
+                              : Icon(Icons.visibility_off,
+                              color: Colors.white, size: 20),
+                        )
+                      ],
                     ),
-                    obscureText: true,
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Password is required.';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(
                     height: 16,
                   ),
                   RaisedButton(
-                    color: Colors.blueAccent,
-                    textColor: Colors.white,
+                    color: Colors.white,
+                    textColor:  Color.fromRGBO(0, 60, 141, 1),
                     padding: const EdgeInsets.all(16),
                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(8.0)),
-                    child: Text('LOGIN'),
+                    child: Text('Đăng nhập'),
                     onPressed: state is LoginLoading ? () {} : _onLoginButtonPressed,
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  Text('Hãy đăng nhập bằng gmail sau: dev@anvui.com, mật khẩu tùy chọn',style: TextStyle(color: Colors.red),)
+                  Text('Hãy đăng nhập bằng "anvuidemo", mật khẩu "av123456"',style: TextStyle(color: Colors.white),)
                 ],
               ),
             ),
@@ -174,5 +212,11 @@ class __SignInFormState extends State<_SignInForm> {
       content: Text(error),
       backgroundColor: Theme.of(context).errorColor,
     ));
+  }
+
+  void onTouchedShowPassword() {
+    setState(() {
+      _showPass = !_showPass;
+    });
   }
 }
